@@ -1,24 +1,24 @@
-import { AssistantPackage, RuleDefinition } from '@sketch-hq/sketch-assistant-types'
+import CoreAssistant from '@sketch-hq/sketch-core-assistant'
+import { AssistantPackage } from '@sketch-hq/sketch-assistant-types'
 
-const helloWorld: RuleDefinition = {
-  rule: async (context) => {
-    context.utils.report('Hello world')
-  },
-  name: 'sketch-assistant-template/hello-world',
-  title: 'Hello World',
-  description: 'Reports a hello world message',
-}
-
-const assistant: AssistantPackage = async () => {
-  return {
-    name: 'sketch-assistant-template',
-    rules: [helloWorld],
-    config: {
-      rules: {
-        'sketch-assistant-template/hello-world': { active: true },
+const assistant: AssistantPackage = [
+  CoreAssistant,
+  async () => {
+    return {
+      name: 'stephs-assistant',
+      rules: [],
+      config: {
+        rules: {
+          '@sketch-hq/sketch-core-assistant/name-pattern-artboards': {
+            active: true,
+            forbidden: [],
+            allowed: ['^(\\d+\\.?)+ .*'],
+            ruleTitle: 'Artboard names should start with numbers followed by a space',
+          },
+        },
       },
-    },
-  }
-}
+    }
+  },
+]
 
 export default assistant
